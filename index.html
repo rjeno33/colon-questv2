@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<title> Colon Quest</title>
+<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+<div class="box">
+
+<div id="mainApp">
+<hr>
+<h1> Colon Quest Admin</h1>
+
+<div class="appointmentBox">
+
+<h2>Care Provider</h2>
+
+<select id="profileSelect">
+    <option value="">-- Select care provider --</option>
+    <option value="testFixed"> Test - Fixed Times</option>
+    <option value="testFlexible"> Test - Flexible Times</option>
+    <option value="sheffield">Sheffield Teaching Hospitals</option>
+    
+</select>
+
+<h2>Hospital Site</h2>
+
+<select id="siteSelect">
+
+</select>
+
+<h2>Bowel Preparation</h2>
+
+<label for="prepSelect">
+    Select the patient's bowel preparation
+</label>
+
+<select id="prepSelect">
+    <option value="">-- Select bowel preparation --</option>
+    <option value="plenvu">Plenvu</option>
+    <option value="moviprep">Moviprep</option>
+    <option value="picolax">Picolax</option>
+    <option value="extended">Extended Prep - 6 Satchet Moviprep</option>
+</select>
+
+<h2>Medications</h2>
+
+
+<label for="ironSelect">
+    Does the patient take oral iron?
+</label>
+
+<select id="ironSelect">
+    
+     <option value=""> --Select Iron Status--</option>
+    <option value="Yes">Yes - Stop Iron</option>
+<option value="No">No</option>
+</select>
+
+    <h2>Appointment Details</h2>
+
+    <label for="appointmentDate">
+        Select patient appointment date and time
+    </label>
+
+    <input
+        id="appointmentDate"
+        type="datetime-local">
+
+    <button id="createPlanButton">
+        Create Patient Plan
+    </button>
+
+
+<button id="clearDateButton">
+    Reset Plan
+</button>
+
+</div>
+
+<div id="planSummary"></div>
+
+<div id="plan"></div>
+                   
+<button id="printPlanButton">
+    🖨️ Print Patient Plan
+</button>
+    <div id="printPlan"></div>
+ 
+
+
+<p> Colon Quest Admin v0.1 </p>
+<p> Created By </p>
+<p> Ryan Jennings </p>
+</div>
+
+
+
+<hr>
+
+<script src="script.js"></script>
+
+</body>
+</html>
