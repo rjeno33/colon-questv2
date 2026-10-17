@@ -52,7 +52,7 @@ const testFixedProfile = {
             fixedPrepTimes: true,
             dietStartDays: 4,
 
-            medications: [
+            s: [
             ],
 
             waterTasks: false,
@@ -83,7 +83,7 @@ const testFixedProfile = {
             fixedPrepTimes: true,
             dietStartDays: 4,
 
-            medications: [
+            s: [
             ],
 
             waterTasks: false,
@@ -135,7 +135,7 @@ const testFlexibleProfile = {
             waterStartDays: 2,
             fastingTime: "14:30",
 
-            medications: [
+            s: [
             ],
 
             waterTasks: true,
@@ -156,7 +156,7 @@ const testFlexibleProfile = {
             waterStartDays: 2,
             fastingTime: "16:30",
 
-            medications: [
+            s: [
             ],
 
             waterTasks: true,
@@ -177,7 +177,7 @@ const testFlexibleProfile = {
             waterStartDays: 2,
             fastingTime: "20:30",
 
-            medications: [
+            s: [
             ],
 
             waterTasks: true,
@@ -234,7 +234,7 @@ maxAppointmentTime: "21:00",
                     fixedPrepTimes: true,
                     dietStartDays: 2,
 
-                    medications: [
+                    s: [
                     ],
 
                     waterTasks: false,
@@ -267,7 +267,7 @@ maxAppointmentTime: "21:00",
                     fixedPrepTimes: true,
                     dietStartDays: 2,
 
-                    medications: [
+                    s: [
                     ],
 
                     waterTasks: false,
@@ -300,7 +300,7 @@ maxAppointmentTime: "21:00",
                     fixedPrepTimes: true,
                     dietStartDays: 2,
 
-                    medications: [
+                    s: [
                     ],
 
                     waterTasks: false,
@@ -350,7 +350,7 @@ maxAppointmentTime: "21:00",
                     waterTasks: false,
                     sennaTasks: false,
                     waterAfterPrep: true,
-                    medications: [],
+                    s: [],
 
                     prepSchedule: [
 
@@ -379,7 +379,7 @@ maxAppointmentTime: "21:00",
                     waterTasks: false,
                     sennaTasks: false,
                     waterAfterPrep: true,
-                    medications: [],
+                    s: [],
 
                     prepSchedule: [
 
@@ -408,7 +408,7 @@ maxAppointmentTime: "21:00",
                     waterTasks: false,
                     sennaTasks: false,
                     waterAfterPrep: true,
-                    medications: [],
+                    s: [],
 
                     prepSchedule: [
 
@@ -452,7 +452,7 @@ maxAppointmentTime: "21:00",
                     waterTasks: false,
                     sennaTasks: false,
                     waterAfterPrep: true,
-                    medications: [],
+                    s: [],
 
                     prepSchedule: [
 
@@ -481,7 +481,7 @@ maxAppointmentTime: "21:00",
                     waterTasks: false,
                     sennaTasks: false,
                     waterAfterPrep: true,
-                    medications: [],
+                    s: [],
 
                     prepSchedule: [
 
@@ -510,7 +510,7 @@ maxAppointmentTime: "21:00",
                     waterTasks: false,
                     sennaTasks: false,
                     waterAfterPrep: true,
-                    medications: [],
+                    s: [],
 
                     prepSchedule: [
 
@@ -556,7 +556,7 @@ maxAppointmentTime: "21:00",
                     sennaStartDays: 3,
                     waterAfterPrep: false,
                     dietStartDays: 5,
-                    medications: [],
+                    s: [],
 
                     prepSchedule: [
 
@@ -594,7 +594,7 @@ maxAppointmentTime: "21:00",
                     sennaStartDays: 3,
                     waterAfterPrep: false,
                     dietStartDays: 5,
-                    medications: [],
+                    s: [],
 
                     prepSchedule: [
 
@@ -632,7 +632,7 @@ maxAppointmentTime: "21:00",
                     sennaStartDays: 3,
                     waterAfterPrep: false,
                     dietStartDays: 5,
-                    medications: [],
+                    s: [],
 
                     prepSchedule: [
 
@@ -721,14 +721,14 @@ const plan =
 const ironSelect =
     document.getElementById("ironSelect");
 
-const medicationSelect =
-    document.getElementById("medicationSelect");
+const Select =
+    document.getElementById("Select");
 
-const medicationPathway =
-    document.getElementById("medicationPathway");
+const Pathway =
+    document.getElementById("Pathway");
 
 
-const medicationNames = {
+const Names = {
     apixaban: "Apixaban",
     edoxaban: "Edoxaban",
     rivaroxaban: "Rivaroxaban"
@@ -776,6 +776,68 @@ const medicationProtocols = {
         }
     }
 };
+
+
+medicationSelect.addEventListener("change", function () {
+    showMedicationPathways();
+});
+
+function showMedicationPathways() {
+    const medication = medicationSelect.value;
+
+    // Clear any previous pathway choices
+    medicationPathway.innerHTML = "";
+
+    // Nothing selected? Leave the pathway area empty.
+    if (medication === "") {
+        return;
+    }
+
+    // Apixaban, edoxaban and rivaroxaban share the DOAC protocols
+    let protocolKey = medication;
+
+    if (
+        medication === "apixaban" ||
+        medication === "edoxaban" ||
+        medication === "rivaroxaban"
+    ) {
+        protocolKey = "doac";
+    }
+
+    const protocol = medicationProtocols[protocolKey];
+
+    // No protocol available for this medication
+    if (!protocol) {
+        return;
+    }
+
+    const pathwayKeys = Object.keys(protocol.pathways);
+
+    let options = `
+        <option value="">-- Select Medication Protocol --</option>
+    `;
+
+    pathwayKeys.forEach(function (pathwayKey) {
+        const pathway = protocol.pathways[pathwayKey];
+
+        options += `
+            <option value="${pathwayKey}">
+                ${pathway.name}
+            </option>
+        `;
+    });
+
+    medicationPathway.innerHTML = `
+        <label for="pathwaySelect">
+            Select the medication pathway
+        </label>
+
+        <select id="pathwaySelect">
+            ${options}
+        </select>
+    `;
+}
+
 
 
 //=============================
