@@ -721,18 +721,6 @@ const plan =
 const ironSelect =
     document.getElementById("ironSelect");
 
-const Select =
-    document.getElementById("Select");
-
-const Pathway =
-    document.getElementById("Pathway");
-
-
-const Names = {
-    apixaban: "Apixaban",
-    edoxaban: "Edoxaban",
-    rivaroxaban: "Rivaroxaban"
-};
 
 //=============================
 // Medication Protocols
