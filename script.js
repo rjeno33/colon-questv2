@@ -734,66 +734,411 @@ const Names = {
     rivaroxaban: "Rivaroxaban"
 };
 
-///===========================
-// Medication protocol
-//============================
+//=============================
+// Medication Protocols
+//=============================
+const medicationNames = {
 
+    apixaban: "Apixaban",
+
+    edoxaban: "Edoxaban",
+
+    rivaroxaban: "Rivaroxaban"
+
+};
 
 const medicationProtocols = {
+
     doac: {
+
         name: "Apixaban / Edoxaban / Rivaroxaban",
+
         pathways: {
+
             dayOfTest: {
+
                 name: "Do not take on day of test",
+
                 instructions: [
+
                     {
                         day: 0,
                         text: "Do not take your DOAC."
                     }
+
                 ]
+
             },
+
             lastDoseDay3: {
+
                 name: "Last dose 3 days before endoscopy",
+
                 instructions: [
+
                     {
                         day: -3,
                         text: "Take your usual DOAC. This is your last dose."
                     },
+
                     {
                         day: -2,
                         text: "Do not take your DOAC."
                     },
+
                     {
                         day: -1,
                         text: "Do not take your DOAC."
                     },
+
                     {
                         day: 0,
                         text: "Do not take your DOAC."
                     }
+
                 ]
+
+            },
+
+            aspirin: {
+
+                name: "Aspirin substitution pathway",
+
+                instructions: [
+
+                    {
+                        day: -3,
+                        text: "Take Aspirin 300mg and your usual DOAC. This is your last dose of DOAC."
+                    },
+
+                    {
+                        day: -2,
+                        text: "Take Aspirin 75mg. Do not take your DOAC."
+                    },
+
+                    {
+                        day: -1,
+                        text: "Take Aspirin 75mg. Do not take your DOAC."
+                    },
+
+                    {
+                        day: 0,
+                        text: "Take Aspirin 75mg. Do not take your DOAC."
+                    }
+
+                ]
+
             }
+
         }
+
+    },
+
+    dabigatran: {
+
+        name: "Dabigatran",
+
+        pathways: {
+
+            dayOfTest: {
+
+    name: "Do not take on day of test",
+
+    instructions: [
+
+        {
+            day: 0,
+            text: "Do not take Dabigatran."
+        }
+
+    ]
+
+},
+
+            lastDoseDay3: {
+
+                name: "Last dose 3 days before endoscopy",
+
+                instructions: [
+
+                    {
+                        day: -3,
+                        text: "Take your usual Dabigatran. This is your last dose."
+                    },
+
+                    {
+                        day: -2,
+                        text: "Do not take Dabigatran."
+                    },
+
+                    {
+                        day: -1,
+                        text: "Do not take Dabigatran."
+                    },
+
+                    {
+                        day: 0,
+                        text: "Do not take Dabigatran."
+                    }
+
+                ]
+
+            },
+
+            lastDoseDay5: {
+
+                name: "Last dose 5 days before endoscopy",
+
+                instructions: [
+
+                    {
+                        day: -5,
+                        text: "Take your usual Dabigatran. This is your last dose."
+                    },
+
+                    {
+                        day: -4,
+                        text: "Do not take Dabigatran."
+                    },
+
+                    {
+                        day: -3,
+                        text: "Do not take Dabigatran."
+                    },
+
+                    {
+                        day: -2,
+                        text: "Do not take Dabigatran."
+                    },
+
+                    {
+                        day: -1,
+                        text: "Do not take Dabigatran."
+                    },
+
+                    {
+                        day: 0,
+                        text: "Do not take Dabigatran."
+                    }
+
+                ]
+
+            }
+
+        }
+
+    },
+
+
+    clopidogrel: {
+
+        name: "Clopidogrel",
+
+        pathways: {
+
+                 continue: {
+
+    name: "Continue as usual",
+
+    instructions: [
+
+        {
+            day: 0,
+            text: "You do not need to stop taking your clopidogrel for this procedure. Continue to take it as usual."
+        }
+
+    ]
+
+},
+
+            stopDay7: {
+
+                name: "Stop 7 days before endoscopy",
+
+                instructions: [
+
+                    {
+                        day: -7,
+                        text: "Stop taking Clopidogrel."
+                    }
+
+                ]
+
+            }
+
+        }
+
+    },
+
+
+    warfarin: {
+
+        name: "Warfarin",
+
+        pathways: {
+
+            continue: {
+
+                name: "Continue — INR checked on day of test",
+
+                instructions: [
+
+                    {
+                        day: 0,
+                        text: "Continue your usual Warfarin. Your INR will be checked on the day of your test."
+                    }
+
+                ]
+
+            },
+
+            interrupt: {
+
+                name: "Requires interruption",
+
+                suitableForColonQuest: false
+
+            }
+
+        }
+
     }
+
 };
 
 
+
+
+// =========================
+// Medication pathway
+// =========================
+
 medicationSelect.addEventListener("change", function () {
+
     showMedicationPathways();
+
 });
 
-function showMedicationPathways() {
-    const medication = medicationSelect.value;
 
-    // Clear any previous pathway choices
+
+function showMedicationPathways() {
+
+    const medication =
+        medicationSelect.value;
+
     medicationPathway.innerHTML = "";
 
-    // Nothing selected? Leave the pathway area empty.
     if (medication === "") {
+
         return;
+
     }
 
-    // Apixaban, edoxaban and rivaroxaban share the DOAC protocols
+
+  let protocolKey = medication;
+
+if (
+    medication === "apixaban" ||
+    medication === "edoxaban" ||
+    medication === "rivaroxaban"
+) {
+
+    protocolKey = "doac";
+
+}
+
+const protocol =
+    medicationProtocols[protocolKey];
+
+
+    if (!protocol) {
+
+        return;
+
+    }
+
+
+    const pathwayKeys =
+        Object.keys(protocol.pathways);
+
+
+    if (pathwayKeys.length === 0) {
+
+        return;
+
+    }
+
+
+let options = `
+
+    <option value="">
+        -- Select Medication Protocol --
+    </option>
+
+`;
+
+pathwayKeys.forEach(function (pathwayKey) {
+
+    const pathway =
+        protocol.pathways[pathwayKey];
+
+
+    options += `
+
+        <option value="${pathwayKey}">
+            ${pathway.name}
+        </option>
+
+    `;
+
+});
+
+    medicationPathway.innerHTML = `
+
+        <label for="pathwaySelect">
+            Select the medication pathway
+        </label>
+
+        <select id="pathwaySelect">
+
+            ${options}
+
+        </select>
+
+    `;
+
+}
+
+//==========================
+// Get Medication Tasks
+//==========================
+
+function getMedicationTasks(day) {
+
+    const medication =
+        medicationSelect.value;
+
+    if (medication === "") {
+
+        return [];
+
+    }
+
+
+    const pathwaySelect =
+        document.getElementById("pathwaySelect");
+
+    if (!pathwaySelect) {
+
+        return [];
+
+    }
+
+
+    const pathwayKey =
+        pathwaySelect.value;
+
+
     let protocolKey = medication;
 
     if (
@@ -801,43 +1146,71 @@ function showMedicationPathways() {
         medication === "edoxaban" ||
         medication === "rivaroxaban"
     ) {
+
         protocolKey = "doac";
+
     }
 
-    const protocol = medicationProtocols[protocolKey];
 
-    // No protocol available for this medication
+    const protocol =
+        medicationProtocols[protocolKey];
+
     if (!protocol) {
-        return;
+
+        return [];
+
     }
 
-    const pathwayKeys = Object.keys(protocol.pathways);
 
-    let options = `
-        <option value="">-- Select Medication Protocol --</option>
-    `;
+    const pathway =
+        protocol.pathways[pathwayKey];
 
-    pathwayKeys.forEach(function (pathwayKey) {
-        const pathway = protocol.pathways[pathwayKey];
+    if (!pathway) {
 
-        options += `
-            <option value="${pathwayKey}">
-                ${pathway.name}
-            </option>
-        `;
-    });
+        return [];
 
-    medicationPathway.innerHTML = `
-        <label for="pathwaySelect">
-            Select the medication pathway
-        </label>
+    }
 
-        <select id="pathwaySelect">
-            ${options}
-        </select>
-    `;
+
+    if (!pathway.instructions) {
+
+        return [];
+
+    }
+
+
+    const instructions =
+        pathway.instructions.filter(function (instruction) {
+
+            return instruction.day === day;
+
+        });
+
+
+    return instructions.map(function (instruction) {
+
+    let text = instruction.text;
+
+    if (medicationNames[medication]) {
+
+        text = text.replaceAll(
+            "DOAC",
+            medicationNames[medication]
+        );
+
+    }
+
+    return {
+
+        type: "medication",
+
+        text: text
+
+    };
+
+});
+
 }
-
 
 
 //=============================
