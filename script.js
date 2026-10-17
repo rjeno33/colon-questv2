@@ -728,6 +728,56 @@ const medicationPathway =
     document.getElementById("medicationPathway");
 
 
+const medicationNames = {
+    apixaban: "Apixaban",
+    edoxaban: "Edoxaban",
+    rivaroxaban: "Rivaroxaban"
+};
+
+///===========================
+// Medication protocol
+//============================
+
+
+const medicationProtocols = {
+    doac: {
+        name: "Apixaban / Edoxaban / Rivaroxaban",
+        pathways: {
+            dayOfTest: {
+                name: "Do not take on day of test",
+                instructions: [
+                    {
+                        day: 0,
+                        text: "Do not take your DOAC."
+                    }
+                ]
+            },
+            lastDoseDay3: {
+                name: "Last dose 3 days before endoscopy",
+                instructions: [
+                    {
+                        day: -3,
+                        text: "Take your usual DOAC. This is your last dose."
+                    },
+                    {
+                        day: -2,
+                        text: "Do not take your DOAC."
+                    },
+                    {
+                        day: -1,
+                        text: "Do not take your DOAC."
+                    },
+                    {
+                        day: 0,
+                        text: "Do not take your DOAC."
+                    }
+                ]
+            }
+        }
+    }
+};
+
+
 //=============================
 // Get Iron Tasks
 //=============================
