@@ -722,6 +722,14 @@ const ironSelect =
     document.getElementById("ironSelect");
 
 
+const medicationSelect =
+    document.getElementById("medicationSelect");
+
+const medicationPathway =
+    document.getElementById("medicationPathway");
+
+
+
 //=============================
 // Medication Protocols
 //=============================
