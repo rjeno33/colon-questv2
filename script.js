@@ -1241,16 +1241,6 @@ function getIronTasks(day) {
 }
 
 
-//==========================
-// Medication Tasks - V3 placeholder
-//==========================
-
-function getMedicationTasks(day) {
-
-    return [];
-
-}
-
 //============================
 // Preparation instructions
 //============================
