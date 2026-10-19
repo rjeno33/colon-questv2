@@ -2376,6 +2376,56 @@ createPlanButton.addEventListener(
 
         }
 
+        // Medication status
+
+if (
+    medicationSelect.value === ""
+) {
+
+    alert(
+        "Please select the patient's medication status."
+    );
+
+    return;
+
+}
+
+// Medication protocol
+if (
+    medicationSelect.value !== "" &&
+    medicationSelect.value !== "none"
+) {
+    const pathwaySelect =
+        document.getElementById("pathwaySelect");
+
+    if (
+        !pathwaySelect ||
+        pathwaySelect.value === ""
+    ) {
+        alert("Please select the medication protocol.");
+        return;
+    }
+}
+
+// Warfarin safety check
+if (medicationSelect.value === "warfarin") {
+
+    const pathwaySelect =
+        document.getElementById("pathwaySelect");
+
+    if (
+        pathwaySelect &&
+        pathwaySelect.value === "interrupt"
+    ) {
+
+        alert(
+            "Warfarin interruption pathway is not supported. Please discuss with the referring clinician or appropriate anticoagulation service to determine the patient's individual anticoagulation management, including whether bridging is required."
+        );
+
+        return;
+    }
+}
+
         // Appointment date
 
         if (
