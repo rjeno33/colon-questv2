@@ -52,7 +52,7 @@ const testFixedProfile = {
             fixedPrepTimes: true,
             dietStartDays: 4,
 
-            s: [
+            medications: [
             ],
 
             waterTasks: false,
@@ -83,7 +83,7 @@ const testFixedProfile = {
             fixedPrepTimes: true,
             dietStartDays: 4,
 
-            s: [
+            medications: [
             ],
 
             waterTasks: false,
@@ -135,7 +135,7 @@ const testFlexibleProfile = {
             waterStartDays: 2,
             fastingTime: "14:30",
 
-            s: [
+            medications: [
             ],
 
             waterTasks: true,
@@ -156,7 +156,7 @@ const testFlexibleProfile = {
             waterStartDays: 2,
             fastingTime: "16:30",
 
-            s: [
+            medications: [
             ],
 
             waterTasks: true,
@@ -177,7 +177,7 @@ const testFlexibleProfile = {
             waterStartDays: 2,
             fastingTime: "20:30",
 
-            s: [
+            medications: [
             ],
 
             waterTasks: true,
@@ -234,7 +234,7 @@ maxAppointmentTime: "21:00",
                     fixedPrepTimes: true,
                     dietStartDays: 2,
 
-                    s: [
+                    medications: [
                     ],
 
                     waterTasks: false,
@@ -267,7 +267,7 @@ maxAppointmentTime: "21:00",
                     fixedPrepTimes: true,
                     dietStartDays: 2,
 
-                    s: [
+                    medications: [
                     ],
 
                     waterTasks: false,
@@ -300,7 +300,7 @@ maxAppointmentTime: "21:00",
                     fixedPrepTimes: true,
                     dietStartDays: 2,
 
-                    s: [
+                    medications: [
                     ],
 
                     waterTasks: false,
@@ -350,7 +350,7 @@ maxAppointmentTime: "21:00",
                     waterTasks: false,
                     sennaTasks: false,
                     waterAfterPrep: true,
-                    s: [],
+                    medications: [],
 
                     prepSchedule: [
 
@@ -379,7 +379,7 @@ maxAppointmentTime: "21:00",
                     waterTasks: false,
                     sennaTasks: false,
                     waterAfterPrep: true,
-                    s: [],
+                    medications: [],
 
                     prepSchedule: [
 
@@ -408,7 +408,7 @@ maxAppointmentTime: "21:00",
                     waterTasks: false,
                     sennaTasks: false,
                     waterAfterPrep: true,
-                    s: [],
+                    medications: [],
 
                     prepSchedule: [
 
@@ -452,7 +452,7 @@ maxAppointmentTime: "21:00",
                     waterTasks: false,
                     sennaTasks: false,
                     waterAfterPrep: true,
-                    s: [],
+                    medications: [],
 
                     prepSchedule: [
 
@@ -481,7 +481,7 @@ maxAppointmentTime: "21:00",
                     waterTasks: false,
                     sennaTasks: false,
                     waterAfterPrep: true,
-                    s: [],
+                    medications: [],
 
                     prepSchedule: [
 
@@ -510,7 +510,7 @@ maxAppointmentTime: "21:00",
                     waterTasks: false,
                     sennaTasks: false,
                     waterAfterPrep: true,
-                    s: [],
+                    medications: [],
 
                     prepSchedule: [
 
@@ -556,7 +556,7 @@ maxAppointmentTime: "21:00",
                     sennaStartDays: 3,
                     waterAfterPrep: false,
                     dietStartDays: 5,
-                    s: [],
+                    medications: [],
 
                     prepSchedule: [
 
@@ -594,7 +594,7 @@ maxAppointmentTime: "21:00",
                     sennaStartDays: 3,
                     waterAfterPrep: false,
                     dietStartDays: 5,
-                    s: [],
+                    medications: [],
 
                     prepSchedule: [
 
@@ -632,7 +632,7 @@ maxAppointmentTime: "21:00",
                     sennaStartDays: 3,
                     waterAfterPrep: false,
                     dietStartDays: 5,
-                    s: [],
+                    medications: [],
 
                     prepSchedule: [
 
