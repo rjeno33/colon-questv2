@@ -215,6 +215,33 @@ maxAppointmentTime: "21:00",
         "Royal Hallamshire Hospital"
     ],
 
+    patientSupport: {
+    enabled: true,
+
+    tips: [
+        "Some people find keeping the prep chilled makes it more palatable.",
+        "Try drinking through a straw.",
+        "Have a preferred approved fluid to drink alongside your prep.",
+        "Take it slow and steady. Trying to rush can make you feel nauseous or risk vomiting.",
+        "Ensure you drink all your prep even if your bowel movements are only liquid."
+    ],
+
+    importantMessage:
+        "Failure to drink all the prep can risk your procedure being cancelled or requiring a repeat procedure.",
+
+    preAssessment: {
+        message:
+            "If you have any concerns before your procedure contact our preassessment team on 0114555444",
+        telephone: "0114555444"
+    },
+
+    bookingHub: {
+        message:
+            "If you need to rearrange or cancel your procedure contact our booking hub on 0114334455",
+        telephone: "0114334455"
+    }
+},
+
     
 
     bowelPreps: {
@@ -728,6 +755,65 @@ const medicationSelect =
 const medicationPathway =
     document.getElementById("medicationPathway");
 
+
+//===============================
+// Patient Support
+//===============================
+
+
+function addPatientSupport(profile) {
+
+    const support = profile.patientSupport;
+
+    // Do not display support if disabled or missing
+    if (!support || !support.enabled) {
+        return;
+    }
+
+    let html = "";
+
+    html += "<div class='patientSupport'>";
+
+    html += "<h2>Tips for taking your bowel preparation</h2>";
+
+    html += "<ul>";
+
+    support.tips.forEach(function(tip) {
+        html += "<li>" + tip + "</li>";
+    });
+
+    html += "</ul>";
+
+    html += "<div class='importantMessage'>";
+
+    html += "<strong>Important:</strong> ";
+
+    html += support.importantMessage;
+
+    html += "</div>";
+
+    html += "<h2>Need help before your procedure?</h2>";
+
+    html += "<p>";
+
+    html += "<strong>Pre-assessment team</strong><br>";
+
+    html += support.preAssessment.message;
+
+    html += "</p>";
+
+    html += "<p>";
+
+    html += "<strong>Booking hub</strong><br>";
+
+    html += support.bookingHub.message;
+
+    html += "</p>";
+
+    html += "</div>";
+
+    plan.innerHTML += html;
+}
 
 
 //=============================
@@ -2298,7 +2384,11 @@ console.log("Current regimen:", activeProfile.currentRegimen);
         }
 
     }
+    // =========================
+    // Add Patient Support
+    // =========================
 
+    addPatientSupport(activeProfile);
 }
 
 
