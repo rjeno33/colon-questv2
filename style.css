@@ -274,3 +274,48 @@ select:focus {
     }
 
 }
+
+.patientSupport {
+    margin-top: 24px;
+    padding: 20px;
+    border: 1px solid #41B6E6;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #222222;
+}
+
+.patientSupport h2 {
+    margin-top: 0;
+    color: #176B87;
+}
+
+.patientSupport li {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.importantMessage {
+    margin: 20px 0;
+    padding: 12px;
+    border-left: 4px solid #41B6E6;
+    background: #EAF8FD;
+    line-height: 1.5;
+}
+
+.patientSupport p {
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+@media print {
+    .patientSupport {
+        break-inside: avoid;
+        border: 1px solid #777777;
+        margin-top: 16px;
+    }
+
+    .patientSupport h2 {
+        color: #000000;
+    }
+}
+
