@@ -1200,9 +1200,9 @@ function showOtherMedicalQuestions() {
 
 function showFinalMedicationQuestions() {
 
-    const app = document.getElementById("patientApp");
+    const container = document.querySelector(".patient-container");
 
-    app.innerHTML = `
+    container.innerHTML = `
         <h2>One last medication question</h2>
 
         <p>
