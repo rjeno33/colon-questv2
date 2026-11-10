@@ -22,7 +22,6 @@
 
 <select id="profileSelect">
     <option value="">-- Select care provider --</option>
-    <option value="testFixed"> Test - Fixed Times</option>
     <option value="testFlexible"> Test - Flexible Times</option>
     <option value="sheffield">Sheffield Teaching Hospitals</option>
     
@@ -51,58 +50,347 @@
 <h2>Medications</h2>
 
 
-<label for="ironSelect">
-    Does the patient take oral iron?
+<div class="medicationSelection">
+
+    <h3>Medication selection</h3>
+
+    <label>
+        <input type="checkbox" id="ironSelect">
+        Iron supplements
+    </label>
+
+    <label>
+        <input type="checkbox" id="mounjaroSelect">
+        Mounjaro
+    </label>
+
+    <label>
+    <input type="checkbox" id="loperamideSelect">
+    Loperamide
 </label>
 
-<select id="ironSelect">
-    
-     <option value=""> --Select Iron Status--</option>
-    <option value="Yes">Yes - Stop Iron</option>
-<option value="No">No</option>
-</select>
+    <label>
+        <input type="checkbox" id="ramiprilSelect">
+        Ramipril
+    </label>
 
-    <label for="medicationSelect">
-    Does the patient take antiplatelets or anticoagulants?
-</label>
+</div>
 
-<select id="medicationSelect">
+    <div class="steroidSelection">
 
-    <option value="">
-        -- Select Medication Status --
-    </option>
-    <option value="none">
-        No medication selected
-    </option>
+    <h3>Steroid Medication</h3>
 
-   <option value="apixaban">
-    Apixaban
-</option>
+    <label>
+        <input type="checkbox" id="steroidSelect">
+        Patient takes steroid medication
+    </label>
 
-<option value="edoxaban">
-    Edoxaban
-</option>
+    <div id="steroidDoseBox" style="display: none;">
 
-<option value="rivaroxaban">
-    Rivaroxaban
-</option>
+        <label for="steroidDose">
+            Enter the additional steroid dose prescribed
+        </label>
 
-    <option value="dabigatran">
-        Dabigatran
-    </option>
+        <input
+            type="text"
+            id="steroidDose"
+            placeholder="e.g. 5mg Prednisolone"
+        >
 
-    <option value="clopidogrel">
-        Clopidogrel
-    </option>
+    </div>
 
-    <option value="warfarin">
-        Warfarin
-    </option>
+        
+<!-- =========================
+     Diabetes selection
+========================= -->
 
-</select>
+<div class="diabetesSelection">
 
-<div id="medicationPathway"></div>
+    <h3>Diabetes Management</h3>
 
+    <label for="diabetesType">
+        Does the patient have diabetes?
+    </label>
+
+    <select id="diabetesType">
+
+        <option value="">-- Select diabetes status --</option>
+        <option value="none">No</option>
+        <option value="type1">Type 1 diabetes</option>
+        <option value="type2">Type 2 diabetes</option>
+
+    </select>
+
+
+    <!-- Type 1 diabetes medications -->
+
+    <div id="type1DiabetesBox" style="display: none;">
+
+        <h4>Type 1 Diabetes Medications</h4>
+
+        <label>
+            <input type="checkbox" id="type1MixedInsulin">
+            Twice-daily mixed insulin
+        </label>
+
+        <div id="type1MixedInsulinNameBox" style="display: none;">
+    <select id="type1MixedInsulinName">
+        <option value="">-- Select insulin --</option>
+        <option value="NovoMix 30">NovoMix 30</option>
+        <option value="Humalog Mix 25">Humalog Mix 25</option>
+        <option value="Humalog Mix 50">Humalog Mix 50</option>
+        <option value="Humulin M3">Humulin M3</option>
+        <option value="Other">Other</option>
+    </select>
+</div>
+
+        <label>
+            <input type="checkbox" id="type1BackgroundInsulin">
+            Background insulin (e.g. Levemir, Lantus, Humulin I)
+        </label>
+        
+<div id="type1BackgroundInsulinNameBox" style="display: none;">
+
+    <select id="type1BackgroundInsulinName">
+
+        <option value="">-- Select insulin --</option>
+        <option value="Levemir">Levemir</option>
+        <option value="Lantus">Lantus</option>
+        <option value="Humulin I">Humulin I</option>
+
+    </select>
+
+</div>
+
+        <label>
+            <input type="checkbox" id="type1VeryLongInsulin">
+            Very long-acting background insulin (e.g. Tresiba, Toujeo)
+        </label>
+
+        <div id="type1VeryLongInsulinNameBox" style="display: none;">
+
+    <select id="type1VeryLongInsulinName">
+
+        <option value="">-- Select insulin --</option>
+        <option value="Tresiba">Tresiba</option>
+        <option value="Toujeo">Toujeo</option>
+
+    </select>
+
+</div>
+
+        <label>
+            <input type="checkbox" id="type1QuickInsulin">
+            Quick-acting insulin (e.g. Humalog, Novorapid)
+        </label>
+
+        <div id="type1QuickInsulinNameBox" style="display: none;">
+    <select id="type1QuickInsulinName">
+        <option value="">-- Select insulin --</option>
+        <option value="NovoRapid">NovoRapid</option>
+        <option value="Humalog">Humalog</option>
+        <option value="Fiasp">Fiasp</option>
+        <option value="Apidra">Apidra</option>
+        <option value="Trurapi">Trurapi</option>
+        <option value="Other">Other</option>
+    </select>
+</div>
+
+        <label>
+            <input type="checkbox" id="type1OtherTablets">
+            Other diabetes tablets
+        </label>
+
+        <div id="type1TabletsBox" style="display: none;">
+
+    <label><input type="checkbox" id="type1Metformin">Metformin</label>
+
+    <label><input type="checkbox" id="type1YaltorminSR">Yaltormin SR</label>
+
+    <label><input type="checkbox" id="type1Gliclazide">Gliclazide</label>
+
+    <label><input type="checkbox" id="type1Sitagliptin">Sitagliptin</label>
+
+    <label><input type="checkbox" id="type1Linagliptin">Linagliptin</label>
+
+    <label><input type="checkbox" id="type1Pioglitazone">Pioglitazone</label>
+
+    <label><input type="checkbox" id="type1OtherTablet">Other diabetes medication</label>
+
+</div>
+
+
+    </div>
+
+
+    <!-- Type 2 diabetes medications -->
+
+    <div id="type2DiabetesBox" style="display: none;">
+
+        <h4>Type 2 Diabetes Medications</h4>
+
+        <label>
+           <input type="checkbox" id="type2Sglt2">
+            SGLT2 medication (e.g. empagliflozin, dapagliflozin)
+        </label>
+
+        <div id="type2Sglt2NameBox" style="display: none;">
+    <select id="type2Sglt2Name">
+        <option value="">-- Select medication --</option>
+        <option value="Dapagliflozin (Forxiga)">Dapagliflozin (Forxiga)</option>
+        <option value="Empagliflozin (Jardiance)">Empagliflozin (Jardiance)</option>
+        <option value="Canagliflozin (Invokana)">Canagliflozin (Invokana)</option>
+        <option value="Ertugliflozin (Steglatro)">Ertugliflozin (Steglatro)</option>
+        <option value="Other">Other</option>
+    </select>
+</div>
+
+        <label>
+            <input type="checkbox" id="type2OtherTablets">
+            Other diabetes tablets
+        </label>
+
+        <div id="type2TabletsBox" style="display: none;">
+
+    <p><strong>Select the patient's diabetes tablets:</strong></p>
+
+    <label>
+        <input type="checkbox" id="type2Metformin">
+        Metformin
+    </label>
+
+    <label>
+        <input type="checkbox" id="type2YaltorminSR">
+        Yaltormin SR
+    </label>
+
+    <label>
+        <input type="checkbox" id="type2Gliclazide">
+        Gliclazide
+    </label>
+
+    <label>
+        <input type="checkbox" id="type2Sitagliptin">
+        Sitagliptin
+    </label>
+
+    <label>
+        <input type="checkbox" id="type2Linagliptin">
+        Linagliptin
+    </label>
+
+    <label>
+        <input type="checkbox" id="type2Pioglitazone">
+        Pioglitazone
+    </label>
+
+    <label>
+        <input type="checkbox" id="type2OtherTablet">
+        Other diabetes medication
+    </label>
+
+</div>
+
+        <label>
+            <input type="checkbox" id="type2MixedInsulin">
+            Twice-daily mixed insulin
+        </label>
+
+        <div id="type2MixedInsulinNameBox" style="display: none;">
+    <select id="type2MixedInsulinName">
+        <option value="">-- Select insulin --</option>
+        <option value="NovoMix 30">NovoMix 30</option>
+        <option value="Humalog Mix 25">Humalog Mix 25</option>
+        <option value="Humalog Mix 50">Humalog Mix 50</option>
+        <option value="Humulin M3">Humulin M3</option>
+        <option value="Other">Other</option>
+    </select>
+</div>
+
+        <label>
+            <input type="checkbox" id="type2BackgroundInsulin">
+            Background insulin (e.g. Levemir, Lantus, Humulin I)
+        </label>
+
+<div id="type2BackgroundInsulinNameBox" style="display: none;">
+
+    <select id="type2BackgroundInsulinName">
+
+        <option value="">-- Select insulin --</option>
+        <option value="Levemir">Levemir</option>
+        <option value="Lantus">Lantus</option>
+        <option value="Humulin I">Humulin I</option>
+
+    </select>
+
+</div>
+
+        <label>
+            <input type="checkbox" id="type2VeryLongInsulin">
+            Very long-acting background insulin (e.g. Tresiba, Toujeo)
+        </label>
+
+        <div id="type2VeryLongInsulinNameBox" style="display: none;">
+
+    <select id="type2VeryLongInsulinName">
+
+        <option value="">-- Select insulin --</option>
+        <option value="Tresiba">Tresiba</option>
+        <option value="Toujeo">Toujeo</option>
+
+    </select>
+
+</div>
+
+        <label>
+            <input type="checkbox" id="type2QuickInsulin">
+            Quick-acting insulin (e.g. Humalog, Novorapid)
+        </label>
+
+        <div id="type2QuickInsulinNameBox" style="display: none;">
+    <select id="type2QuickInsulinName">
+        <option value="">-- Select insulin --</option>
+        <option value="NovoRapid">NovoRapid</option>
+        <option value="Humalog">Humalog</option>
+        <option value="Fiasp">Fiasp</option>
+        <option value="Apidra">Apidra</option>
+        <option value="Trurapi">Trurapi</option>
+        <option value="Other">Other</option>
+    </select>
+</div>
+
+
+    </div>
+
+</div>
+
+
+</div>
+
+    <div class="anticoagulationSelection">
+
+    <h3>Anticoagulation / Antiplatelet Medication</h3>
+
+    <label for="anticoagulationSelect">
+        Does the patient take an anticoagulant or antiplatelet medication?
+    </label>
+
+    <select id="anticoagulationSelect">
+
+        <option value="">-- Select medication status --</option>
+        <option value="none">No</option>
+        <option value="apixaban">Apixaban</option>
+        <option value="edoxaban">Edoxaban</option>
+        <option value="rivaroxaban">Rivaroxaban</option>
+        <option value="dabigatran">Dabigatran</option>
+        <option value="clopidogrel">Clopidogrel</option>
+        <option value="warfarin">Warfarin</option>
+
+    </select>
+
+    <div id="medicationPathway"></div>
+
+</div>
 
     <h2>Appointment Details</h2>
 
@@ -127,8 +415,12 @@
 
 <div id="planSummary"></div>
 
+<!-- Page 1: Personalised patient plan -->
 <div id="plan"></div>
-                   
+
+<!-- Page 2: Low residue diet information -->
+<div id="lowResidueDietPage"></div>
+
 <button id="printPlanButton">
     🖨️ Print Patient Plan
 </button>
