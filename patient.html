@@ -1,1 +1,91 @@
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Colon Quest - Patient Portal</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f8fb;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .patient-container {
+            max-width: 700px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: #238db8;
+            text-align: center;
+        }
+
+        .intro {
+            text-align: center;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .start-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 25px;
+            background: #41B6E6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        .start-button:hover {
+            background: #238db8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="patient-container">
+
+        <h1>Colon Quest</h1>
+
+        <p class="intro">
+            Welcome to Colon Quest.
+        </p>
+
+        <p class="intro">
+            Before your procedure, we need to ask you a few
+            questions about your health and any medication
+            you take.
+        </p>
+
+        <p class="intro">
+            Your answers will help your hospital team prepare
+            your personalised bowel preparation instructions.
+        </p>
+
+        <button class="start-button" onclick="startQuestionnaire()">
+            Get started
+        </button>
+
+    </div>
+
+    <script src="patient.js"></script>
+
+</body>
+</html>
+
