@@ -1310,9 +1310,9 @@ showReviewScreen();
 
 function showReviewScreen() {
 
-    const app = document.getElementById("patientApp");
+    const container = document.querySelector(".patient-container");
 
-    app.innerHTML = `
+container.innerHTML = `
         <h2>Review your answers</h2>
 
         <p>
