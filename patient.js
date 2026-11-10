@@ -151,15 +151,6 @@ function showMedicationQuestions() {
 
             <hr>
 
-            <label for="otherMedication">
-                Do you take any other medication?
-            </label>
-
-            <textarea id="otherMedication"
-                rows="3"
-                placeholder="Please list any other medication here">
-            </textarea>
-
             <button type="submit" class="start-button">
                 Continue
             </button>
@@ -200,9 +191,6 @@ function showMedicationQuestions() {
 
             });
 
-        // Collect other medication information
-        patientAnswers.otherMedication =
-            document.getElementById("otherMedication").value;
 
         showAnticoagulationQuestions();
 
@@ -709,7 +697,164 @@ function showDiabetesQuestions() {
 
             }
 
-            alert("Brilliant! Your diabetes answers have been saved.");
+           showSteroidQuestions();
+
+        });
+
+}
+
+
+// =========================
+// Steroid questionnaire
+// =========================
+
+function showSteroidQuestions() {
+
+    const container = document.querySelector(".patient-container");
+
+    container.innerHTML = `
+
+        <h1>Colon Quest</h1>
+
+        <h2>Steroid medication</h2>
+
+        <p class="intro">
+            Do you currently take any steroid medication?
+        </p>
+
+        <form id="steroidForm">
+
+            <label>
+                <input type="radio"
+                    name="steroidStatus"
+                    value="no" required>
+                No
+            </label>
+
+            <label>
+                <input type="radio"
+                    name="steroidStatus"
+                    value="yes">
+                Yes
+            </label>
+
+            <label>
+                <input type="radio"
+                    name="steroidStatus"
+                    value="unsure">
+                I'm not sure
+            </label>
+
+
+            <div id="steroidDetails" hidden>
+
+                <hr>
+
+                <label for="steroidName">
+                    What is the name of your steroid?
+                </label>
+
+                <input type="text"
+                    id="steroidName"
+                    placeholder="e.g. Prednisolone">
+
+                <label for="steroidDose">
+                    What dose do you take?
+                </label>
+
+                <input type="text"
+                    id="steroidDose"
+                    placeholder="e.g. 5mg">
+
+                <label for="steroidFrequency">
+                    How often do you take it?
+                </label>
+
+                <input type="text"
+                    id="steroidFrequency"
+                    placeholder="e.g. Once daily">
+
+                <label for="steroidRoute">
+                    How do you take your steroid?
+                </label>
+
+                <select id="steroidRoute">
+                    <option value="">Please select</option>
+                    <option value="tablets">Tablets</option>
+                    <option value="inhaler">Inhaler</option>
+                    <option value="injection">Injection</option>
+                    <option value="cream">Cream or ointment</option>
+                    <option value="other">Other</option>
+                    <option value="unsure">I'm not sure</option>
+                </select>
+
+            </div>
+
+
+            <button type="submit" class="start-button">
+                Continue
+            </button>
+
+        </form>
+
+    `;
+
+
+    // Show or hide steroid details
+
+    container.querySelectorAll(
+        'input[name="steroidStatus"]'
+    ).forEach(function(radio) {
+
+        radio.addEventListener("change", function() {
+
+            const details = document.getElementById(
+                "steroidDetails"
+            );
+
+            details.hidden = radio.value !== "yes";
+
+        });
+
+    });
+
+
+    // Save steroid answers
+
+    document.getElementById("steroidForm")
+        .addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const status = container.querySelector(
+                'input[name="steroidStatus"]:checked'
+            ).value;
+
+            patientAnswers.steroids = {
+                status: status,
+                name: "",
+                dose: "",
+                frequency: "",
+                route: ""
+            };
+
+            if (status === "yes") {
+
+                patientAnswers.steroids.name =
+                    document.getElementById("steroidName").value;
+
+                patientAnswers.steroids.dose =
+                    document.getElementById("steroidDose").value;
+
+                patientAnswers.steroids.frequency =
+                    document.getElementById("steroidFrequency").value;
+
+                patientAnswers.steroids.route =
+                    document.getElementById("steroidRoute").value;
+
+            }
+
+            showOtherMedicalQuestions();
 
         });
 
