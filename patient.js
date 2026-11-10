@@ -414,8 +414,304 @@ function showAnticoagulationQuestions() {
 
         }
 
-        alert("Brilliant! Your blood-thinning medication answers have been saved.");
+        showDiabetesQuestions();
 
     });
 
 }
+
+
+// =========================
+// Diabetes questionnaire
+// =========================
+
+function showDiabetesQuestions() {
+
+    const container = document.querySelector(".patient-container");
+
+    const tabletOptions = [
+        "Metformin",
+        "Gliclazide",
+        "Dapagliflozin (Forxiga)",
+        "Empagliflozin (Jardiance)",
+        "Canagliflozin (Invokana)",
+        "Ertugliflozin (Steglatro)",
+        "Sitagliptin",
+        "Linagliptin",
+        "Pioglitazone",
+        "Other",
+        "I don't know the name"
+    ];
+
+    const insulinOptions = [
+        "Levemir",
+        "Lantus",
+        "Toujeo",
+        "Tresiba",
+        "Humalog",
+        "NovoRapid",
+        "Fiasp",
+        "NovoMix",
+        "Humulin",
+        "Other",
+        "I don't know the name"
+    ];
+
+    function createMedicationOptions(options, type) {
+
+        return options.map(function(medication, index) {
+
+            const id = type + index;
+
+            return `
+                <label>
+                    <input type="checkbox"
+                        class="${type}-checkbox"
+                        value="${medication}"
+                        data-details="${id}Details">
+
+                    ${medication}
+                </label>
+
+                <div id="${id}Details"
+                    class="medication-details" hidden>
+
+                    ${medication === "Other" ? `
+                        <label>What is the medication called?</label>
+                        <input type="text" class="${type}-other">
+                    ` : ""}
+
+                    <label>What dose do you take?</label>
+                    <input type="text"
+                        class="${type}-dose"
+                        placeholder="${type === "insulin" ? "e.g. 20 units" : "e.g. 500mg"}">
+
+                    <label>How often do you take it?</label>
+                    <input type="text"
+                        class="${type}-frequency"
+                        placeholder="${type === "insulin" ? "e.g. Twice daily" : "e.g. Once daily"}">
+
+                    ${type === "insulin" ? `
+                        <label>When do you take it?</label>
+                        <input type="text"
+                            class="${type}-timing"
+                            placeholder="e.g. Before breakfast and evening meal">
+                    ` : ""}
+
+                </div>
+            `;
+
+        }).join("");
+
+    }
+
+
+    container.innerHTML = `
+
+        <h1>Colon Quest</h1>
+
+        <h2>Diabetes</h2>
+
+        <p class="intro">
+            Do you have diabetes?
+        </p>
+
+        <form id="diabetesForm">
+
+            <label>
+                <input type="radio"
+                    name="diabetesStatus"
+                    value="no" required>
+                No
+            </label>
+
+            <label>
+                <input type="radio"
+                    name="diabetesStatus"
+                    value="yes">
+                Yes
+            </label>
+
+            <label>
+                <input type="radio"
+                    name="diabetesStatus"
+                    value="unsure">
+                I'm not sure
+            </label>
+
+
+            <div id="diabetesDetails" hidden>
+
+                <hr>
+
+                <label for="diabetesType">
+                    What type of diabetes do you have?
+                </label>
+
+                <select id="diabetesType" required>
+                    <option value="">Please select</option>
+                    <option value="type1">Type 1 diabetes</option>
+                    <option value="type2">Type 2 diabetes</option>
+                    <option value="other">Another type of diabetes</option>
+                    <option value="unsure">I'm not sure</option>
+                </select>
+
+
+                <hr>
+
+                <h3>Diabetes tablets and other medicines</h3>
+
+                <p>
+                    Do you take any of these medications?
+                    Select all that apply.
+                </p>
+
+                ${createMedicationOptions(tabletOptions, "tablet")}
+
+
+                <hr>
+
+                <h3>Insulin</h3>
+
+                <p>
+                    Do you use any insulin?
+                    Select all that apply.
+                </p>
+
+                ${createMedicationOptions(insulinOptions, "insulin")}
+
+            </div>
+
+
+            <button type="submit" class="start-button">
+                Continue
+            </button>
+
+        </form>
+
+    `;
+
+
+    // Show diabetes questions when Yes is selected
+
+    container.querySelectorAll(
+        'input[name="diabetesStatus"]'
+    ).forEach(function(radio) {
+
+        radio.addEventListener("change", function() {
+
+            document.getElementById("diabetesDetails").hidden =
+                radio.value !== "yes";
+
+            document.getElementById("diabetesType").required =
+                radio.value === "yes";
+
+        });
+
+    });
+
+
+    // Show individual medication details
+
+    container.addEventListener("change", function(event) {
+
+        if (
+            !event.target.classList.contains("tablet-checkbox") &&
+            !event.target.classList.contains("insulin-checkbox")
+        ) {
+            return;
+        }
+
+        const detailsBox = document.getElementById(
+            event.target.dataset.details
+        );
+
+        detailsBox.hidden = !event.target.checked;
+
+    });
+
+
+    // Collect medication answers
+
+    function collectDiabetesMedications(type) {
+
+        const results = [];
+
+        container.querySelectorAll(
+            "." + type + "-checkbox:checked"
+        ).forEach(function(checkbox) {
+
+            const detailsBox = document.getElementById(
+                checkbox.dataset.details
+            );
+
+            const medication = {
+                name: checkbox.value,
+                dose: detailsBox.querySelector(
+                    "." + type + "-dose"
+                ).value,
+                frequency: detailsBox.querySelector(
+                    "." + type + "-frequency"
+                ).value
+            };
+
+            if (checkbox.value === "Other") {
+                medication.otherName =
+                    detailsBox.querySelector(
+                        "." + type + "-other"
+                    ).value;
+            }
+
+            if (type === "insulin") {
+                medication.timing =
+                    detailsBox.querySelector(
+                        ".insulin-timing"
+                    ).value;
+            }
+
+            results.push(medication);
+
+        });
+
+        return results;
+
+    }
+
+
+    // Save answers when Continue is pressed
+
+    document.getElementById("diabetesForm")
+        .addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const status = container.querySelector(
+                'input[name="diabetesStatus"]:checked'
+            ).value;
+
+            patientAnswers.diabetes = {
+                status: status,
+                type: null,
+                tablets: [],
+                insulin: []
+            };
+
+            if (status === "yes") {
+
+                patientAnswers.diabetes.type =
+                    document.getElementById("diabetesType").value;
+
+                patientAnswers.diabetes.tablets =
+                    collectDiabetesMedications("tablet");
+
+                patientAnswers.diabetes.insulin =
+                    collectDiabetesMedications("insulin");
+
+            }
+
+            alert("Brilliant! Your diabetes answers have been saved.");
+
+        });
+
+}
+
