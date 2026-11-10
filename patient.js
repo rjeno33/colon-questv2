@@ -860,3 +860,337 @@ function showSteroidQuestions() {
 
 }
 
+
+ // =========================
+ // Other medical questions
+ // =========================
+
+function showOtherMedicalQuestions() {
+
+    const container = document.querySelector(".patient-container");
+
+    container.innerHTML = `
+
+        <h1>Colon Quest</h1>
+
+        <h2>Other medical conditions</h2>
+
+        <p class="intro">
+            We'd like to know a little more about your health
+            so that your hospital team can prepare for your procedure.
+        </p>
+
+        <form id="otherMedicalForm">
+
+            <!-- Pacemaker / ICD -->
+
+            <hr>
+
+            <h3>Pacemaker or heart device</h3>
+
+            <p>
+                Do you have a pacemaker or an implantable
+                cardioverter defibrillator (ICD)?
+            </p>
+
+            <label>
+                <input type="radio" name="heartDevice"
+                    value="no" required>
+                No
+            </label>
+
+            <label>
+                <input type="radio" name="heartDevice"
+                    value="pacemaker">
+                Pacemaker
+            </label>
+
+            <label>
+                <input type="radio" name="heartDevice"
+                    value="icd">
+                ICD
+            </label>
+
+            <label>
+                <input type="radio" name="heartDevice"
+                    value="both">
+                Both
+            </label>
+
+            <label>
+                <input type="radio" name="heartDevice"
+                    value="unsure">
+                I'm not sure
+            </label>
+
+
+            <!-- Respiratory conditions -->
+
+            <hr>
+
+            <h3>Breathing and lung conditions</h3>
+
+            <p>
+                Do you have any of the following conditions?
+            </p>
+
+            <label>
+                <input type="radio" name="respiratoryStatus"
+                    value="no" required>
+                No
+            </label>
+
+            <label>
+                <input type="radio" name="respiratoryStatus"
+                    value="yes">
+                Yes
+            </label>
+
+            <label>
+                <input type="radio" name="respiratoryStatus"
+                    value="unsure">
+                I'm not sure
+            </label>
+
+            <div id="respiratoryDetails" hidden>
+
+                <p>Select all that apply:</p>
+
+                <label>
+                    <input type="checkbox"
+                        class="respiratory-checkbox"
+                        value="Asthma">
+                    Asthma
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                        class="respiratory-checkbox"
+                        value="COPD">
+                    COPD
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                        class="respiratory-checkbox"
+                        value="Sleep apnoea"
+                        id="sleepApnoeaSelect">
+                    Sleep apnoea
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                        class="respiratory-checkbox"
+                        value="Other lung condition">
+                    Another breathing or lung condition
+                </label>
+
+                <div id="sleepApnoeaDetails"
+                    class="medication-details" hidden>
+
+                    <label>
+                        Do you use a CPAP or BiPAP machine?
+                    </label>
+
+                    <label>
+                        <input type="radio" name="cpapUse"
+                            value="CPAP">
+                        CPAP
+                    </label>
+
+                    <label>
+                        <input type="radio" name="cpapUse"
+                            value="BiPAP">
+                        BiPAP
+                    </label>
+
+                    <label>
+                        <input type="radio" name="cpapUse"
+                            value="both">
+                        Both
+                    </label>
+
+                    <label>
+                        <input type="radio" name="cpapUse"
+                            value="no">
+                        I don't use one
+                    </label>
+
+                    <label>
+                        <input type="radio" name="cpapUse"
+                            value="unsure">
+                        I'm not sure
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- Mobility and accessibility -->
+
+            <hr>
+
+            <h3>Mobility and accessibility</h3>
+
+            <p>
+                Do you have any mobility or accessibility
+                requirements that we should know about?
+            </p>
+
+            <label>
+                <input type="checkbox"
+                    class="mobility-checkbox"
+                    value="Walking stick">
+                I use a walking stick
+            </label>
+
+            <label>
+                <input type="checkbox"
+                    class="mobility-checkbox"
+                    value="Walking frame">
+                I use a walking frame
+            </label>
+
+            <label>
+                <input type="checkbox"
+                    class="mobility-checkbox"
+                    value="Wheelchair">
+                I use a wheelchair
+            </label>
+
+            <label>
+                <input type="checkbox"
+                    class="mobility-checkbox"
+                    value="Help with walking">
+                I need help walking
+            </label>
+
+            <label>
+                <input type="checkbox"
+                    class="mobility-checkbox"
+                    value="Help with transfers">
+                I need help getting on or off a bed or chair
+            </label>
+
+            <label>
+                <input type="checkbox"
+                    class="mobility-checkbox"
+                    value="Other accessibility requirement">
+                Another accessibility requirement
+            </label>
+
+
+            <!-- Additional information -->
+
+            <hr>
+
+            <h3>Anything else?</h3>
+
+            <p>
+                Is there anything else about your health
+                or circumstances that you think your
+                hospital team should know?
+            </p>
+
+            <textarea id="additionalHealthInformation"
+                rows="4"
+                placeholder="Please tell us anything else you think is important">
+            </textarea>
+
+
+            <button type="submit" class="start-button">
+                Continue
+            </button>
+
+        </form>
+
+    `;
+
+
+    // Show respiratory questions when Yes is selected
+
+    container.querySelectorAll(
+        'input[name="respiratoryStatus"]'
+    ).forEach(function(radio) {
+
+        radio.addEventListener("change", function() {
+
+            document.getElementById(
+                "respiratoryDetails"
+            ).hidden = radio.value !== "yes";
+
+        });
+
+    });
+
+
+    // Show CPAP/BiPAP question when sleep apnoea is selected
+
+    document.getElementById("sleepApnoeaSelect")
+        .addEventListener("change", function() {
+
+            document.getElementById(
+                "sleepApnoeaDetails"
+            ).hidden = !this.checked;
+
+        });
+
+
+    // Save answers
+
+    document.getElementById("otherMedicalForm")
+        .addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const heartDevice = container.querySelector(
+                'input[name="heartDevice"]:checked'
+            ).value;
+
+            const respiratoryStatus = container.querySelector(
+                'input[name="respiratoryStatus"]:checked'
+            ).value;
+
+            const cpapSelection = container.querySelector(
+                'input[name="cpapUse"]:checked'
+            );
+
+            patientAnswers.otherMedical = {
+
+                heartDevice: heartDevice,
+
+                respiratoryStatus: respiratoryStatus,
+
+                respiratoryConditions: Array.from(
+                    container.querySelectorAll(
+                        ".respiratory-checkbox:checked"
+                    )
+                ).map(function(item) {
+                    return item.value;
+                }),
+
+                cpapUse: cpapSelection ? cpapSelection.value : "",
+
+                mobility: Array.from(
+                    container.querySelectorAll(
+                        ".mobility-checkbox:checked"
+                    )
+                ).map(function(item) {
+                    return item.value;
+                }),
+
+                additionalInformation:
+                    document.getElementById(
+                        "additionalHealthInformation"
+                    ).value
+
+            };
+
+            alert("Brilliant! Your other medical information has been saved.");
+
+        });
+
+}
+
+
