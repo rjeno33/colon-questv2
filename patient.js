@@ -1297,12 +1297,144 @@ function showFinalMedicationQuestions() {
                 details: details
             };
 
-            alert("Brilliant! All your questionnaire answers have been collected.");
-
-            console.log(patientAnswers);
+showReviewScreen();
 
         });
 
 }
 
+
+// =========================
+// Patient review screen
+// =========================
+
+function showReviewScreen() {
+
+    const app = document.getElementById("patientApp");
+
+    app.innerHTML = `
+        <h2>Review your answers</h2>
+
+        <p>
+            Please take a moment to check the information
+            you have provided.
+        </p>
+
+        <div id="reviewAnswers"></div>
+
+        <hr>
+
+        <p>
+            <strong>Important:</strong> This is a test version
+            of Colon Quest. Your answers will not be sent
+            to your hospital.
+        </p>
+
+        <button type="button" id="confirmAnswers">
+            Confirm answers
+        </button>
+    `;
+
+    const reviewArea = document.getElementById("reviewAnswers");
+
+    // Make question names easier to read
+    function readableName(name) {
+
+        return name
+            .replace(/([A-Z])/g, " $1")
+            .replace(/^./, letter => letter.toUpperCase());
+
+    }
+
+    // Display answers safely as text
+    function displayValue(parent, value, label) {
+
+        const item = document.createElement("div");
+        item.className = "review-item";
+
+        if (label) {
+
+            const heading = document.createElement("strong");
+            heading.textContent = readableName(label) + ": ";
+            item.appendChild(heading);
+
+        }
+
+        if (Array.isArray(value)) {
+
+            if (value.length === 0) {
+                item.appendChild(document.createTextNode("None provided"));
+            } else {
+
+                const list = document.createElement("ul");
+
+                value.forEach(entry => {
+
+                    const listItem = document.createElement("li");
+                    displayValue(listItem, entry);
+                    list.appendChild(listItem);
+
+                });
+
+                item.appendChild(list);
+
+            }
+
+        } else if (value !== null && typeof value === "object") {
+
+            const details = document.createElement("div");
+
+            Object.entries(value).forEach(([key, entry]) => {
+
+                displayValue(details, entry, key);
+
+            });
+
+            item.appendChild(details);
+
+        } else {
+
+            const text = document.createTextNode(
+                value === "" || value === null || value === undefined
+                    ? "Not provided"
+                    : String(value)
+            );
+
+            item.appendChild(text);
+
+        }
+
+        parent.appendChild(item);
+
+    }
+
+    // Build a section for each group of answers
+    Object.entries(patientAnswers).forEach(([key, value]) => {
+
+        const section = document.createElement("section");
+        section.className = "review-section";
+
+        const heading = document.createElement("h3");
+        heading.textContent = readableName(key);
+
+        section.appendChild(heading);
+
+        displayValue(section, value);
+
+        reviewArea.appendChild(section);
+
+    });
+
+    // Confirm button
+    document.getElementById("confirmAnswers")
+        .addEventListener("click", function() {
+
+            alert(
+                "Thank you! You have reviewed your answers. " +
+                "This is a prototype, so nothing has been sent."
+            );
+
+        });
+
+}
 
