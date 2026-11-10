@@ -204,7 +204,7 @@ function showMedicationQuestions() {
         patientAnswers.otherMedication =
             document.getElementById("otherMedication").value;
 
-        alert("Brilliant! Your medication answers have been saved.");
+        showAnticoagulationQuestions();
 
     });
 
@@ -220,6 +220,201 @@ function showMedicationQuestions() {
         const detailsBox = document.getElementById(detailsId);
 
         detailsBox.hidden = !event.target.checked;
+
+    });
+
+}
+
+
+// =========================
+// Blood-thinning medication
+// =========================
+
+function showAnticoagulationQuestions() {
+
+    const container = document.querySelector(".patient-container");
+
+    container.innerHTML = `
+
+        <h1>Colon Quest</h1>
+
+        <h2>Blood-thinning medication</h2>
+
+        <p class="intro">
+            Do you currently take any medication to thin your blood?
+        </p>
+
+        <form id="anticoagulationForm">
+
+            <label>
+                <input type="radio" name="bloodThinner"
+                    value="no" required>
+                No
+            </label>
+
+            <label>
+                <input type="radio" name="bloodThinner"
+                    value="yes">
+                Yes
+            </label>
+
+            <label>
+                <input type="radio" name="bloodThinner"
+                    value="unsure">
+                I'm not sure
+            </label>
+
+            <div id="bloodThinnerList" hidden>
+
+                <hr>
+
+                <h3>Which medication do you take?</h3>
+
+                <p>Please select all that apply.</p>
+
+                ${[
+                    "Apixaban",
+                    "Edoxaban",
+                    "Rivaroxaban",
+                    "Dabigatran",
+                    "Warfarin",
+                    "Clopidogrel",
+                    "Aspirin",
+                    "Ticagrelor",
+                    "Other"
+                ].map(function(medication, index) {
+
+                    return `
+                        <label>
+                            <input type="checkbox"
+                                class="blood-thinner-checkbox"
+                                value="${medication}"
+                                data-details="bloodDetail${index}">
+                            ${medication}
+                        </label>
+
+                        <div id="bloodDetail${index}"
+                            class="medication-details" hidden>
+
+                            ${medication === "Other" ? `
+                                <label>What is the name of the medication?</label>
+                                <input type="text"
+                                    class="blood-other-name"
+                                    placeholder="Medication name">
+                            ` : ""}
+
+                            <label>What dose do you take?</label>
+                            <input type="text"
+                                placeholder="e.g. 5mg"
+                                class="blood-dose">
+
+                            <label>How often do you take it?</label>
+                            <input type="text"
+                                placeholder="e.g. Twice daily"
+                                class="blood-frequency">
+
+                        </div>
+                    `;
+
+                }).join("")}
+
+            </div>
+
+            <button type="submit" class="start-button">
+                Continue
+            </button>
+
+        </form>
+
+    `;
+
+
+    // Show the medication list when Yes is selected
+
+    container.querySelectorAll(
+        'input[name="bloodThinner"]'
+    ).forEach(function(radio) {
+
+        radio.addEventListener("change", function() {
+
+            document.getElementById("bloodThinnerList").hidden =
+                radio.value !== "yes";
+
+        });
+
+    });
+
+
+    // Show individual medication details when selected
+
+    container.addEventListener("change", function(event) {
+
+        if (!event.target.classList.contains(
+            "blood-thinner-checkbox"
+        )) {
+            return;
+        }
+
+        const detailsId = event.target.dataset.details;
+
+        document.getElementById(detailsId).hidden =
+            !event.target.checked;
+
+    });
+
+
+    // Save the blood-thinning medication answers
+
+    const form = document.getElementById("anticoagulationForm");
+
+    form.addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const status = form.querySelector(
+            'input[name="bloodThinner"]:checked'
+        ).value;
+
+        patientAnswers.bloodThinningMedication = {
+            status: status,
+            medications: []
+        };
+
+        if (status === "yes") {
+
+            container.querySelectorAll(
+                ".blood-thinner-checkbox:checked"
+            ).forEach(function(checkbox) {
+
+                const detailsBox = document.getElementById(
+                    checkbox.dataset.details
+                );
+
+                const medication = {
+                    name: checkbox.value,
+                    dose: detailsBox.querySelector(
+                        ".blood-dose"
+                    ).value,
+                    frequency: detailsBox.querySelector(
+                        ".blood-frequency"
+                    ).value
+                };
+
+                if (checkbox.value === "Other") {
+                    medication.otherName =
+                        detailsBox.querySelector(
+                            ".blood-other-name"
+                        ).value;
+                }
+
+                patientAnswers.bloodThinningMedication
+                    .medications.push(medication);
+
+            });
+
+        }
+
+        alert("Brilliant! Your blood-thinning medication answers have been saved.");
 
     });
 
