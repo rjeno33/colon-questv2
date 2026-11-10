@@ -168,6 +168,47 @@ function showMedicationQuestions() {
 
     `;
 
+
+    // Handle medication form submission
+    const medicationForm = document.getElementById("medicationForm");
+
+    medicationForm.addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        // Collect selected medications
+        patientAnswers.medications = [];
+
+        document.querySelectorAll(".medication-checkbox:checked")
+            .forEach(function(checkbox) {
+
+                const medication = {
+                    name: checkbox.value
+                };
+
+                // Collect dose and frequency
+                const detailsBox = document.getElementById(
+                    checkbox.dataset.details
+                );
+
+                const inputs = detailsBox.querySelectorAll("input");
+
+                medication.dose = inputs[0].value;
+                medication.frequency = inputs[1].value;
+
+                patientAnswers.medications.push(medication);
+
+            });
+
+        // Collect other medication information
+        patientAnswers.otherMedication =
+            document.getElementById("otherMedication").value;
+
+        alert("Brilliant! Your medication answers have been saved.");
+
+    });
+
+    
     // Show or hide medication details when a box is ticked
     container.addEventListener("change", function (event) {
 
