@@ -274,7 +274,6 @@ select:focus {
     }
 
 }
-
 .patientSupport {
     margin-top: 24px;
     padding: 20px;
@@ -307,6 +306,11 @@ select:focus {
     margin-bottom: 16px;
 }
 
+
+/* ==============================
+   PATIENT SUPPORT - PRINT
+   ============================== */
+
 @media print {
     .patientSupport {
         break-inside: avoid;
@@ -319,3 +323,290 @@ select:focus {
     }
 }
 
+
+/* ==============================
+   LOW RESIDUE DIET PAGE
+   WEBSITE STYLING
+   ============================== */
+
+.lowResidueDietPage {
+    background: white;
+    margin-top: 30px;
+    padding: 22px;
+    border: 2px solid #003087;
+    border-radius: 4px;
+    text-align: left;
+    color: #222;
+    box-sizing: border-box;
+    display: block;
+}
+
+.dietHeader {
+    text-align: center;
+    background: #EAF8FD;
+    border-bottom: 3px solid #003087;
+    padding: 14px;
+    margin-bottom: 18px;
+}
+
+.dietHeader h1 {
+    color: #003087;
+    font-size: 26px;
+    margin: 0 0 4px 0;
+}
+
+.dietHeader h2 {
+    color: #003087;
+    font-size: 22px;
+    margin: 12px 0 4px 0;
+}
+
+.dietHeader p {
+    margin: 4px 0;
+}
+
+.dietIntroduction,
+.dietReminder {
+    background: white;
+    border: 1px solid #003087;
+    border-radius: 3px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.dietIntroduction h3,
+.dietReminder h3 {
+    color: #003087;
+    margin: 0 0 6px 0;
+    font-size: 15px;
+}
+
+.dietIntroduction p,
+.dietReminder p {
+    margin: 0;
+}
+
+.dietTableHeading {
+    color: #003087;
+    font-size: 17px;
+    margin: 18px 0 8px 0;
+}
+
+
+/* ==============================
+   DIET TABLE - WEBSITE
+   ============================== */
+
+.dietTable {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 12px;
+    line-height: 1.35;
+    border: 2px solid #000;
+}
+
+.dietTable th,
+.dietTable td {
+    border: 2px solid #000;
+    padding: 9px;
+    vertical-align: top;
+    text-align: left;
+    overflow-wrap: break-word;
+}
+
+.dietTable thead th {
+    background: #D9EAF7;
+    color: #003087;
+    font-size: 13px;
+}
+
+.dietTable tbody th {
+    background: #EAF8FD;
+    color: #003087;
+    font-weight: bold;
+    width: 20%;
+}
+
+.dietTable tbody tr:nth-child(even) td {
+    background: #F7FBFD;
+}
+
+.dietFooter {
+    margin-top: 14px;
+    padding: 12px;
+    background: #EAF8FD;
+    border: 1px solid #003087;
+    line-height: 1.4;
+}
+
+.dietFooter strong {
+    color: #003087;
+}
+
+.dietFooter p {
+    margin: 5px 0 0 0;
+}
+
+
+/* ==============================
+   LOW RESIDUE DIET - PRINT
+   ============================== */
+
+@media print {
+
+.dietPrintPage {
+    display: block;
+    margin-top: 0;
+}
+
+    .lowResidueDietPage {
+        margin: 0 !important;
+        padding: 5px !important;
+        width: 100% !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+
+    /* Strong, visible table grid */
+
+    .dietTable {
+        width: 100%;
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+        table-layout: fixed;
+        border: 2px solid black !important;
+        font-size: 11px;
+    }
+
+    .dietTable th,
+    .dietTable td {
+        border: 2px solid black !important;
+        padding: 8px !important;
+        vertical-align: top;
+        text-align: left;
+        line-height: 1.35;
+    }
+
+    .dietTable thead th {
+        background: #D9EAF7 !important;
+        color: #000 !important;
+        font-weight: bold;
+    }
+
+    .dietTable tbody th {
+        background: #EAF8FD !important;
+        color: #003087 !important;
+        font-weight: bold;
+    }
+
+    .dietTable tbody tr {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+    }
+
+    .dietIntroduction,
+    .dietReminder,
+    .dietFooter {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .dietHeader,
+    .dietTable th,
+    .dietTable td,
+    .dietFooter {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+}
+
+/* =========================
+   TASK BULLET POINTS
+   ========================= */
+
+.taskList {
+    margin: 6px 0;
+    padding-left: 25px;
+}
+
+.taskList li {
+    padding-left: 4px;
+    margin-bottom: 8px;
+    line-height: 1.4;
+    list-style-position: outside;
+    vertical-align: top;
+}
+
+.task {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+}
+
+.task i {
+    width: 16px;
+    min-width: 16px;
+    flex-shrink: 0;
+    margin: 2px 0 0 0;
+    font-size: 16px;
+    text-align: center;
+}
+
+.task span {
+    flex: 1;
+}
+
+/* ================================
+   Diabetes medication category list
+================================ */
+
+#type1DiabetesBox > label,
+#type2DiabetesBox > label {
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 12px;
+
+    margin: 8px 0 4px;
+
+    background: #f7f7f7;
+
+    border: 1px solid #e2e2e2;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+}
+
+
+/* Keep checkboxes neatly aligned */
+
+#type1DiabetesBox > label input,
+#type2DiabetesBox > label input {
+
+    margin: 0;
+    flex-shrink: 0;
+
+}
+
+
+/* Indent insulin selection dropdowns */
+
+#type1DiabetesBox > div[id$="NameBox"],
+#type2DiabetesBox > div[id$="NameBox"] {
+
+    margin-left: 34px;
+    margin-bottom: 12px;
+
+}
