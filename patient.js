@@ -2,21 +2,50 @@
 // Temporary storage for our patient questionnaire
 let patientAnswers = {};
 
+
 // =========================
-// Patient details form
+// Patient details form and editing
 // =========================
 
+let editingSection = null;
+let patientDetailsHTML = "";
+
 document.addEventListener("DOMContentLoaded", function () {
+
+    const container = document.querySelector(".patient-container");
+
+    // Keep a copy of the original patient details screen
+    patientDetailsHTML = container.innerHTML;
+
+    setupPatientDetailsForm();
+
+});
+
+function setupPatientDetailsForm() {
 
     const patientForm = document.getElementById("patientForm");
 
     if (!patientForm) return;
 
+    // Fill in previous answers if the patient is editing
+    if (patientAnswers.details) {
+
+        Object.entries(patientAnswers.details).forEach(([key, value]) => {
+
+            const field = document.getElementById(key);
+
+            if (field) {
+                field.value = value || "";
+            }
+
+        });
+
+    }
+
     patientForm.addEventListener("submit", function (event) {
 
         event.preventDefault();
 
-        // Collect the patient's details
         patientAnswers.details = {
             firstName: document.getElementById("firstName").value,
             lastName: document.getElementById("lastName").value,
@@ -27,12 +56,36 @@ document.addEventListener("DOMContentLoaded", function () {
             appointmentTime: document.getElementById("appointmentTime").value
         };
 
-        // Move to the medication questionnaire
-        showMedicationQuestions();
+        // If editing, return to the review screen
+        if (editingSection === "details") {
+
+            editingSection = null;
+            showReviewScreen();
+
+        } else {
+
+            // Otherwise continue the normal questionnaire
+            showMedicationQuestions();
+
+        }
 
     });
 
-});
+}
+
+// Return to the patient details form
+function editPatientDetails() {
+
+    const container = document.querySelector(".patient-container");
+
+    container.innerHTML = patientDetailsHTML;
+
+    editingSection = "details";
+
+    setupPatientDetailsForm();
+
+}
+
 
 
 // =========================
