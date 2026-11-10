@@ -1187,7 +1187,119 @@ function showOtherMedicalQuestions() {
 
             };
 
-            alert("Brilliant! Your other medical information has been saved.");
+            showFinalMedicationQuestions();
+
+        });
+
+}
+
+
+// =========================
+// Final medication questions
+// =========================
+
+function showFinalMedicationQuestions() {
+
+    const app = document.getElementById("patientApp");
+
+    app.innerHTML = `
+        <h2>One last medication question</h2>
+
+        <p>
+            Are you taking any other medicines that we haven't
+            already asked you about?
+        </p>
+
+        <p>
+            This includes prescription medicines, medicines
+            bought from a pharmacy or shop, vitamins and supplements.
+        </p>
+
+        <form id="finalMedicationForm">
+
+            <label>
+                <input type="radio" name="otherMedicationStatus"
+                    value="no" required>
+                No
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio" name="otherMedicationStatus"
+                    value="yes">
+                Yes
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio" name="otherMedicationStatus"
+                    value="unsure">
+                I'm not sure
+            </label>
+
+            <div id="otherMedicationDetails" hidden>
+
+                <label for="otherMedicationText">
+                    Please tell us the names of the medicines,
+                    vitamins or supplements you take:
+                </label>
+
+                <textarea
+                    id="otherMedicationText"
+                    rows="5"
+                    placeholder="Enter the names here...">
+                </textarea>
+
+            </div>
+
+            <br>
+
+            <button type="submit">Continue</button>
+
+        </form>
+    `;
+
+    const statusOptions = document.querySelectorAll(
+        'input[name="otherMedicationStatus"]'
+    );
+
+    const detailsBox = document.getElementById(
+        "otherMedicationDetails"
+    );
+
+    statusOptions.forEach(option => {
+
+        option.addEventListener("change", function() {
+
+            detailsBox.hidden = this.value !== "yes";
+
+        });
+
+    });
+
+    document.getElementById("finalMedicationForm")
+        .addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const status = document.querySelector(
+                'input[name="otherMedicationStatus"]:checked'
+            ).value;
+
+            const details = document.getElementById(
+                "otherMedicationText"
+            ).value.trim();
+
+            patientAnswers.otherMedication = {
+                status: status,
+                details: details
+            };
+
+            alert("Brilliant! All your questionnaire answers have been collected.");
+
+            console.log(patientAnswers);
 
         });
 
