@@ -3594,11 +3594,7 @@ clearDateButton.addEventListener(
 // =========================
 
 
-document
-    .getElementById("printPlanButton")
-    .addEventListener(
-        "click",
-        function() {
+function createPlanDocumentWindow() {
 
             const summary =
                 document
@@ -3893,23 +3889,104 @@ ${planContent}
             `);
 
 
-            printWindow.document.close();
+printWindow.document.close();
+
+return printWindow;
+
+}
+
+// =========================
+// Print Patient Plan
+// =========================
+
+document
+    .getElementById("printPlanButton")
+    .addEventListener("click", function() {
+
+        const printWindow = createPlanDocumentWindow();
+
+        printWindow.focus();
+
+        setTimeout(function() {
+
+            printWindow.print();
+
+        }, 500);
+
+    });
 
 
-            printWindow.focus();
+// =========================
+// Download Patient Plan PDF
+// =========================
 
+document
+    .getElementById("downloadPDFButton")
+    .addEventListener("click", function() {
 
-            setTimeout(
-                function() {
+        // Check that the PDF library has loaded
+        if (typeof html2pdf === "undefined") {
 
-                    printWindow.print();
+            alert("PDF generator has not loaded. Please refresh the page and try again.");
 
-                },
-                500
-            );
+            return;
 
         }
-    );
+
+        // Build the same document used by the Print button
+        const pdfWindow = createPlanDocumentWindow();
+
+        // Give the document time to render
+        setTimeout(function() {
+
+            html2pdf()
+                .set({
+
+                    margin: 10,
+
+                    filename: "Colon-Quest-Patient-Plan.pdf",
+
+                    image: {
+                        type: "jpeg",
+                        quality: 0.98
+                    },
+
+                    html2canvas: {
+                        scale: 2,
+                        useCORS: true
+                    },
+
+                    jsPDF: {
+                        unit: "mm",
+                        format: "a4",
+                        orientation: "portrait"
+                    },
+
+                    pagebreak: {
+                        mode: ["css", "legacy"]
+                    }
+
+                })
+                .from(pdfWindow.document.body)
+                .save()
+                .then(function() {
+
+                    pdfWindow.close();
+
+                })
+                .catch(function(error) {
+
+                    console.error("PDF generation error:", error);
+
+                    alert("Sorry, the PDF could not be generated. Please try again.");
+
+                    pdfWindow.close();
+
+                });
+
+        }, 500);
+
+    });
 
 
 // =========================
