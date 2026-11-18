@@ -3955,7 +3955,7 @@ document
 
         // Apply the basic page styling
 pdfContent.style.cssText = `
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     z-index: 99999;
@@ -3965,6 +3965,10 @@ pdfContent.style.cssText = `
     color: #222;
     font-family: Arial, sans-serif;
     font-size: 12px;
+    visibility: visible;
+    display: block;
+    opacity: 1;
+    transform: none;
 `;
 
         // Add the temporary content to Colon Quest
