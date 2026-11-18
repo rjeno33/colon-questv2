@@ -3967,6 +3967,9 @@ pdfContent.style.cssText = `
 
         // Add the temporary content to Colon Quest
         document.body.appendChild(pdfContent);
+        console.log("PDF content:", pdfContent.innerText);
+
+console.log("PDF dimensions:", pdfContent.scrollWidth, pdfContent.scrollHeight);
 
         // Close the temporary print window
         pdfWindow.close();
