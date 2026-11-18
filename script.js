@@ -3917,6 +3917,7 @@ document
 
 
 
+
 // =========================
 // Download Patient Plan PDF
 // =========================
@@ -3927,108 +3928,70 @@ document
 
         // Check that the PDF library has loaded
         if (typeof html2pdf === "undefined") {
-
             alert("PDF generator has not loaded. Please refresh the page and try again.");
-
             return;
-
         }
 
         console.log("PDF BUTTON CLICKED");
 
-        // Build the same document used by the Print button
+        // Build the original patient document
         const pdfWindow = createPlanDocumentWindow();
 
-        // Create a temporary container on the main Colon Quest page
-        const pdfContent = document.createElement("div");
+        // Allow the document to finish rendering
+        setTimeout(function() {
 
-        // Copy the completed plan into the container
-        pdfContent.innerHTML = pdfWindow.document.body.innerHTML;
+            console.log("PDF source:", pdfWindow.document.body.innerText);
 
-        // Copy the print styling
-        const printStyles =
-            pdfWindow.document.querySelector("style");
+            html2pdf()
+                .set({
 
-        const pdfStyles = printStyles.cloneNode(true);
+                    margin: 10,
 
-        pdfContent.appendChild(pdfStyles);
+                    filename: "Colon-Quest-Patient-Plan.pdf",
 
-        // Apply the basic page styling
-pdfContent.style.cssText = `
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 99999;
-    width: 718px;
-    box-sizing: border-box;
-    background: white;
-    color: #222;
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    visibility: visible;
-    display: block;
-    opacity: 1;
-    transform: none;
-`;
+                    image: {
+                        type: "jpeg",
+                        quality: 0.98
+                    },
 
-        // Add the temporary content to Colon Quest
-        document.body.appendChild(pdfContent);
-        console.log("PDF content:", pdfContent.innerText);
+                    html2canvas: {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: "#ffffff"
+                    },
 
-console.log("PDF dimensions:", pdfContent.scrollWidth, pdfContent.scrollHeight);
-        console.log("PDF visibility:", getComputedStyle(pdfContent).visibility);
+                    jsPDF: {
+                        unit: "mm",
+                        format: "a4",
+                        orientation: "portrait"
+                    },
 
-console.log("PDF display:", getComputedStyle(pdfContent).display);
+                    pagebreak: {
+                        mode: ["css", "legacy"]
+                    }
 
-console.log("PDF position:", pdfContent.getBoundingClientRect());
+                })
 
-console.log("PDF background:", getComputedStyle(pdfContent).backgroundColor);
-        
-        console.log("PDF child elements:", pdfContent.children.length);
+                // Capture the ORIGINAL print document
+                .from(pdfWindow.document.body)
 
-console.log("PDF HTML:", pdfContent.innerHTML.substring(0, 1000));
+                .save()
 
-        // Close the temporary print window
-        pdfWindow.close();
+                .then(function() {
+                    pdfWindow.close();
+                    console.log("PDF generated successfully");
+                })
 
-      
-// Give the browser time to render the content
-setTimeout(function() {
+                .catch(function(error) {
+                    pdfWindow.close();
+                    console.error("PDF generation error:", error);
+                    alert("There was a problem generating your PDF.");
+                });
 
-    html2pdf()
-        .set({
-            margin: 10,
-
-            filename: "Colon-Quest-Patient-Plan.pdf",
-
-            image: {
-                type: "jpeg",
-                quality: 0.98
-            },
-
-            html2canvas: {
-                scale: 2,
-                useCORS: true,
-                backgroundColor: "#ffffff"
-            },
-
-            jsPDF: {
-                unit: "mm",
-                format: "a4",
-                orientation: "portrait"
-            },
-
-            pagebreak: {
-                mode: ["css", "legacy"]
-            }
-
-        })
-        .from(pdfContent)
-        .save();
-
-}, 500);
+        }, 500);
 
     });
+
 
 
 
