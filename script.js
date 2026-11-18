@@ -3984,37 +3984,41 @@ console.log("PDF background:", getComputedStyle(pdfContent).backgroundColor);
         pdfWindow.close();
 
       
-        // Give the browser time to render the content
-        setTimeout(function() {
+// Give the browser time to render the content
+setTimeout(function() {
 
-            // TEST: Convert the plan into an image
-            html2canvas(pdfContent, {
-                scale: 1,
+    html2pdf()
+        .set({
+            margin: 10,
+
+            filename: "Colon-Quest-Patient-Plan.pdf",
+
+            image: {
+                type: "jpeg",
+                quality: 0.98
+            },
+
+            html2canvas: {
+                scale: 2,
+                useCORS: true,
                 backgroundColor: "#ffffff"
-            }).then(function(canvas) {
+            },
 
-                console.log(
-                    "Canvas dimensions:",
-                    canvas.width,
-                    canvas.height
-                );
+            jsPDF: {
+                unit: "mm",
+                format: "a4",
+                orientation: "portrait"
+            },
 
-                // Open a preview of the captured image
-                const previewWindow = window.open("");
+            pagebreak: {
+                mode: ["css", "legacy"]
+            }
 
-                previewWindow.document.write(
-                    '<img src="' +
-                    canvas.toDataURL("image/png") +
-                    '" style="width:100%">'
-                );
+        })
+        .from(pdfContent)
+        .save();
 
-            }).catch(function(error) {
-
-                console.error("Canvas error:", error);
-
-            });
-
-        }, 500);
+}, 500);
 
     });
 
