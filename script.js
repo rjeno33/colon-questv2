@@ -3983,60 +3983,41 @@ console.log("PDF background:", getComputedStyle(pdfContent).backgroundColor);
         // Close the temporary print window
         pdfWindow.close();
 
+      
         // Give the browser time to render the content
         setTimeout(function() {
 
-            html2pdf()
-                .set({
+            // TEST: Convert the plan into an image
+            html2canvas(pdfContent, {
+                scale: 1,
+                backgroundColor: "#ffffff"
+            }).then(function(canvas) {
 
-                    margin: 10,
+                console.log(
+                    "Canvas dimensions:",
+                    canvas.width,
+                    canvas.height
+                );
 
-                    filename: "Colon-Quest-Patient-Plan.pdf",
+                // Open a preview of the captured image
+                const previewWindow = window.open("");
 
-                    image: {
-                        type: "jpeg",
-                        quality: 0.98
-                    },
+                previewWindow.document.write(
+                    '<img src="' +
+                    canvas.toDataURL("image/png") +
+                    '" style="width:100%">'
+                );
 
-                    html2canvas: {
-                        scale: 2,
-                        useCORS: true,
-                        backgroundColor: "#ffffff"
-                    },
+            }).catch(function(error) {
 
-                    jsPDF: {
-                        unit: "mm",
-                        format: "a4",
-                        orientation: "portrait"
-                    },
+                console.error("Canvas error:", error);
 
-                    pagebreak: {
-                        mode: ["css", "legacy"]
-                    }
-
-                })
-                .from(pdfContent)
-                .save()
-                .then(function() {
-
-                    // Remove temporary content
-                    pdfContent.remove();
-
-                })
-                .catch(function(error) {
-
-                    console.error("PDF generation error:", error);
-
-                    alert("Sorry, the PDF could not be generated. Please try again.");
-
-                    // Remove temporary content
-                    pdfContent.remove();
-
-                });
+            });
 
         }, 500);
 
     });
+
 
 
 
