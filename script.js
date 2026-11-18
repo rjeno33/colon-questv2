@@ -3983,6 +3983,10 @@ console.log("PDF display:", getComputedStyle(pdfContent).display);
 console.log("PDF position:", pdfContent.getBoundingClientRect());
 
 console.log("PDF background:", getComputedStyle(pdfContent).backgroundColor);
+        
+        console.log("PDF child elements:", pdfContent.children.length);
+
+console.log("PDF HTML:", pdfContent.innerHTML.substring(0, 1000));
 
         // Close the temporary print window
         pdfWindow.close();
