@@ -3952,18 +3952,18 @@ document
         pdfContent.appendChild(pdfStyles);
 
         // Apply the basic page styling
-        pdfContent.style.cssText = `
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: -9999;
-            width: 718px;
-            box-sizing: border-box;
-            background: white;
-            color: #222;
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-        `;
+pdfContent.style.cssText = `
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 99999;
+    width: 718px;
+    box-sizing: border-box;
+    background: white;
+    color: #222;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+`;
 
         // Add the temporary content to Colon Quest
         document.body.appendChild(pdfContent);
