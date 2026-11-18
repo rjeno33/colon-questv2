@@ -3916,6 +3916,7 @@ document
     });
 
 
+
 // =========================
 // Download Patient Plan PDF
 // =========================
@@ -3936,7 +3937,41 @@ document
         // Build the same document used by the Print button
         const pdfWindow = createPlanDocumentWindow();
 
-        // Give the document time to render
+        // Create a temporary container on the main Colon Quest page
+        const pdfContent = document.createElement("div");
+
+        // Copy the completed plan into the container
+        pdfContent.innerHTML = pdfWindow.document.body.innerHTML;
+
+        // Copy the print styling
+        const printStyles =
+            pdfWindow.document.querySelector("style");
+
+        const pdfStyles = printStyles.cloneNode(true);
+
+        pdfContent.appendChild(pdfStyles);
+
+        // Apply the basic page styling
+        pdfContent.style.cssText = `
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: -9999;
+            width: 718px;
+            box-sizing: border-box;
+            background: white;
+            color: #222;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        `;
+
+        // Add the temporary content to Colon Quest
+        document.body.appendChild(pdfContent);
+
+        // Close the temporary print window
+        pdfWindow.close();
+
+        // Give the browser time to render the content
         setTimeout(function() {
 
             html2pdf()
@@ -3953,7 +3988,8 @@ document
 
                     html2canvas: {
                         scale: 2,
-                        useCORS: true
+                        useCORS: true,
+                        backgroundColor: "#ffffff"
                     },
 
                     jsPDF: {
@@ -3967,11 +4003,12 @@ document
                     }
 
                 })
-                .from(pdfWindow.document.body)
+                .from(pdfContent)
                 .save()
                 .then(function() {
 
-                    pdfWindow.close();
+                    // Remove temporary content
+                    pdfContent.remove();
 
                 })
                 .catch(function(error) {
@@ -3980,13 +4017,15 @@ document
 
                     alert("Sorry, the PDF could not be generated. Please try again.");
 
-                    pdfWindow.close();
+                    // Remove temporary content
+                    pdfContent.remove();
 
                 });
 
         }, 500);
 
     });
+
 
 
 // =========================
