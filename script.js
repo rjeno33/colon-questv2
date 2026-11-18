@@ -3934,6 +3934,8 @@ document
 
         }
 
+        console.log("PDF BUTTON CLICKED");
+
         // Build the same document used by the Print button
         const pdfWindow = createPlanDocumentWindow();
 
