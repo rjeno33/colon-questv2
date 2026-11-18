@@ -3972,6 +3972,13 @@ pdfContent.style.cssText = `
         console.log("PDF content:", pdfContent.innerText);
 
 console.log("PDF dimensions:", pdfContent.scrollWidth, pdfContent.scrollHeight);
+        console.log("PDF visibility:", getComputedStyle(pdfContent).visibility);
+
+console.log("PDF display:", getComputedStyle(pdfContent).display);
+
+console.log("PDF position:", pdfContent.getBoundingClientRect());
+
+console.log("PDF background:", getComputedStyle(pdfContent).backgroundColor);
 
         // Close the temporary print window
         pdfWindow.close();
