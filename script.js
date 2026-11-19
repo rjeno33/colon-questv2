@@ -3918,6 +3918,7 @@ document
 
 
 
+
 // =========================
 // Download Patient Plan PDF
 // =========================
@@ -3926,7 +3927,6 @@ document
     .getElementById("downloadPDFButton")
     .addEventListener("click", function() {
 
-        // Check that the PDF library has loaded
         if (typeof html2pdf === "undefined") {
             alert("PDF generator has not loaded. Please refresh the page and try again.");
             return;
@@ -3934,14 +3934,51 @@ document
 
         console.log("PDF BUTTON CLICKED");
 
-        // Build the original patient document
+        // Create the patient document
         const pdfWindow = createPlanDocumentWindow();
 
-        // Allow the document to finish rendering
         setTimeout(function() {
 
-            console.log("PDF source:", pdfWindow.document.body.innerText);
+            // Create a container on the MAIN page
+            const pdfContent = document.createElement("div");
 
+            pdfContent.style.cssText = `
+                position: relative;
+                width: 718px;
+                box-sizing: border-box;
+                background: white;
+                color: #222;
+                font-family: Arial, sans-serif;
+                font-size: 12px;
+                margin: 20px auto;
+                padding: 0;
+            `;
+
+            // Copy the patient document content
+            pdfContent.innerHTML =
+                pdfWindow.document.body.innerHTML;
+
+            // Copy the print styling
+            const printStyle =
+                pdfWindow.document.querySelector("style");
+
+            const copiedStyle =
+                document.createElement("style");
+
+            copiedStyle.textContent =
+                printStyle.textContent;
+
+            document.head.appendChild(copiedStyle);
+
+            // Add the content to the main page
+            document.body.appendChild(pdfContent);
+
+            console.log(
+                "PDF container dimensions:",
+                pdfContent.getBoundingClientRect()
+            );
+
+            // Generate the PDF
             html2pdf()
                 .set({
 
@@ -3972,25 +4009,39 @@ document
 
                 })
 
-                // Capture the ORIGINAL print document
-                .from(pdfWindow.document.body)
+                .from(pdfContent)
 
                 .save()
 
                 .then(function() {
+
+                    pdfContent.remove();
+                    copiedStyle.remove();
                     pdfWindow.close();
+
                     console.log("PDF generated successfully");
+
                 })
 
                 .catch(function(error) {
+
+                    pdfContent.remove();
+                    copiedStyle.remove();
                     pdfWindow.close();
-                    console.error("PDF generation error:", error);
+
+                    console.error(
+                        "PDF generation error:",
+                        error
+                    );
+
                     alert("There was a problem generating your PDF.");
+
                 });
 
         }, 500);
 
     });
+
 
 
 
